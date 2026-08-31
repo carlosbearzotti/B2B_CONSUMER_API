@@ -1,0 +1,54 @@
+/* =============================================================================
+   INTEGRADOS PARTNER HUB (B2B BACKOFFICE) - DESIGN TOKENS
+   Paleta: Dark Slate Deep + Neon Gold + Emerald Cyberpunk
+   ============================================================================= */
+
+:root {
+  /* Brand Palette */
+  --hub-bg-main: #060911;
+  --hub-bg-sidebar: #0a0f1d;
+  --hub-bg-card: rgba(14, 21, 37, 0.75);
+  --hub-bg-card-hover: rgba(20, 30, 52, 0.85);
+  --hub-bg-glass: rgba(10, 15, 29, 0.65);
+
+  /* Gold & Accent Accents */
+  --hub-gold-primary: #d4af37;
+  --hub-gold-light: #f3e5ab;
+  --hub-gold-dark: #aa8214;
+  --hub-gold-gradient: linear-gradient(135deg, #f5d77f 0%, #d4af37 50%, #8c6d1f 100%);
+  --hub-cyan-gradient: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+  --hub-purple-gradient: linear-gradient(135deg, #c084fc 0%, #7e22ce 100%);
+  --hub-emerald-gradient: linear-gradient(135deg, #34d399 0%, #059669 100%);
+
+  /* Status Colors */
+  --status-success: #10b981;
+  --status-warning: #f59e0b;
+  --status-danger: #ef4444;
+  --status-info: #38bdf8;
+  --status-purple: #a855f7;
+
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Cinzel', 'Outfit', serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Text Colors */
+  --text-main: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-gold: #fbbf24;
+
+  /* Borders & Shadows */
+  --hub-border-subtle: rgba(212, 175, 55, 0.12);
+  --hub-border-active: rgba(212, 175, 55, 0.4);
+  --hub-border-card: rgba(255, 255, 255, 0.07);
+  --hub-glow-gold: 0 0 25px rgba(212, 175, 55, 0.2);
+  --hub-glow-cyan: 0 0 25px rgba(56, 189, 248, 0.2);
+  --hub-glow-danger: 0 0 25px rgba(239, 68, 68, 0.25);
+
+  /* Spacings & Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+}

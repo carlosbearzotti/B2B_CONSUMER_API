@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Integrados Partner Hub | B2B Backoffice Console</title>
+  
+  <!-- Google Fonts: Inter & Cinzel & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+  <div class="app-wrapper">
+
+    <!-- ================================================================
+         1. SIDEBAR NAVIGATION
+         ================================================================ -->
+    <aside class="hub-sidebar">
+      <div class="sidebar-header">
+        <div class="brand-icon-box">IN</div>
+        <div class="brand-titles">
+          <span class="brand-name">PARTNER HUB</span>
+          <span class="brand-sub">B2B Admin Console</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Visão Geral</div>
+        <button class="nav-item active" data-tab="dashboard">
+          <span>📊 Dashboard & Cofre</span>
+        </button>
+
+        <div class="nav-section-title">Segurança & Risco</div>
+        <button class="nav-item" data-tab="fraud">
+          <span>🛡️ Fraud Shield Geofencing</span>
+          <span class="nav-badge" id="sidebarFraudBadge">2</span>
+        </button>
+        <button class="nav-item" data-tab="compliance">
+          <span>🏛️ Compliance & LGPD</span>
+        </button>
+
+        <div class="nav-section-title">Produtos & Automação</div>
+        <button class="nav-item" data-tab="investments">
+          <span>📈 Renda Fixa & Investimentos</span>
+        </button>
+        <button class="nav-item" data-tab="webhooks">
+          <span>⚡ Gateway de Webhooks</span>
+        </button>
+        <button class="nav-item" data-tab="scheduler">
+          <span>⏱️ Transferências Agendadas</span>
+        </button>
+
+        <div class="nav-section-title">Desenvolvedor & API</div>
+        <button class="nav-item" data-tab="inspector">
+          <span>📡 API Traffic Inspector</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div style="font-size: 0.75rem; color: var(--text-muted);">
+          Integrados Suite v2.0<br>
+          <span style="color: var(--hub-gold-light);">Multi-Tenant Active</span>
+        </div>
+        <div class="status-dot" title="API Online"></div>
+      </div>
+    </aside>
+
+    <!-- ================================================================
+         2. MAIN CONTENT & TOPBAR
+         ================================================================ -->
+    <div class="hub-main">
+
+      <!-- Header Topbar -->
+      <header class="hub-topbar">
+        <div class="topbar-left">
+          <div class="tenant-picker-box">
+            <span class="tenant-picker-label">Tenant Ativo:</span>
+            <select id="topbarTenantSelect" class="tenant-select">
+              <option value="tenant_fintech">Fintech Startup S.A.</option>
+              <option value="tenant_laobank">LãoBank Digital Banking</option>
+              <option value="tenant_corporativo">Corporativo Global S.A.</option>
+            </select>
+          </div>
+          <span id="currentTenantPlanBadge" class="badge badge-gold">Enterprise Platinum</span>
+        </div>
+
+        <div class="topbar-right">
+          <div class="api-key-badge" title="Chave X-API-Key injetada nas requisições deste tenant">
+            <span>🔑</span>
+            <span id="activeApiKeyDisplay">fintech-startup-key-12345</span>
+          </div>
+          <div class="api-key-badge">
+            <span class="status-dot"></span>
+            <span>API Spring Boot: 8080</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Views (Tabs) -->
+      <main class="hub-content-container">
+
+        <!-- ==============================================================
+             TAB 1: DASHBOARD ANALÍTICO DO COFRE
+             ============================================================== -->
+        <section id="tab-dashboard" class="tab-pane active">
+          
+          <!-- KPI Grid -->
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Volume Protegido no Cofre</span>
+                <span class="kpi-icon">🔐</span>
+              </div>
+              <div class="kpi-value" id="kpiEncryptedVolume">R$ 1.248.950,00</div>
+              <div class="kpi-sub">
+                <span class="kpi-badge-positive">↑ 18.4%</span> vs. mês anterior
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Transações Criptografadas</span>
+                <span class="kpi-icon">🛡️</span>
+              </div>
+              <div class="kpi-value" id="kpiAesTxCount">142 txs</div>
+              <div class="kpi-sub">Padrão AES-256 / RSA-2048</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Transações sob Análise</span>
+                <span class="kpi-icon">🚨</span>
+              </div>
+              <div class="kpi-value" style="color: var(--status-danger);" id="kpiFraudAlerts">2 retidas</div>
+              <div class="kpi-sub">Detecção via Geofencing Radar</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Webhooks Ativos</span>
+                <span class="kpi-icon">⚡</span>
+              </div>
+              <div class="kpi-value" id="kpiActiveWebhooks">3 endpoints</div>
+              <div class="kpi-sub">Assinados com HMAC-SHA256</div>
+            </div>
+          </div>
+
+          <!-- Cryptographic Vault Status -->
+          <div class="hub-card">
+            <div class="hub-card-header">
+              <div>
+                <h2 class="hub-card-title">🏛️ Arquitetura do Cofre Multi-Tenant</h2>
+                <div class="hub-card-desc">Isolamento em nível de esquema PostgreSQL e criptografia de ponta a ponta</div>
+              </div>
+              <span class="badge badge-emerald">Isolamento Garantido</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+              <div style="background: rgba(255,255,255,0.02); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--hub-border-card);">
+                <div style="font-weight: 700; margin-bottom: 0.5rem; color: var(--hub-gold-light);">🔐 Criptografia em Trânsito & Repouso</div>
+                <p style="font-size: 0.82rem; color: var(--text-secondary);">
+                  Documentos de usuários (CPF) e dados bancários trafegam protegidos por chaves RSA assimétricas e são persistidos em formato cifrado AES-256 (Jasypt/Cipher Engine).
+                </p>
+              </div>
+
+              <div style="background: rgba(255,255,255,0.02); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--hub-border-card);">
+                <div style="font-weight: 700; margin-bottom: 0.5rem; color: var(--status-info);">🏢 Esquema Dedicado por Empresa</div>
+                <p style="font-size: 0.82rem; color: var(--text-secondary);">
+                  Cada parceiro B2B opera em seu schema isolado (<code id="currentSchemaText">tenant_fintech</code>), garantindo conformidade com regulações bancárias e LGPD/BACEN.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+
+        <!-- ==============================================================
+             TAB 2: FRAUD SHIELD & GEOFENCING
+             ============================================================== -->
+        <section id="tab-fraud" class="tab-pane">
+          
+          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+            
+            <!-- Radar Simulator Box -->
+            <div class="hub-card" style="margin-bottom: 0;">
+              <div class="hub-card-header">
+                <div>
+                  <h2 class="hub-card-title">📡 Radar de Geofencing & Rastreamento</h2>
+                  <div class="hub-card-desc">Cálculo de distância euclidiana/haversine em tempo real contra anomalias de localização</div>
+                </div>
+                <span class="badge badge-cyan">Ativo</span>
+              </div>
+              
+              <div style="height: 240px; background: #04060a; border-radius: var(--radius-md); overflow: hidden; position: relative; border: 1px solid var(--hub-border-card);">
+                <canvas id="fraudRadarCanvas" style="width: 100%; height: 100%; display: block;"></canvas>
+              </div>
+            </div>
+
+            <!-- Test Evaluator Form -->
+            <div class="hub-card" style="margin-bottom: 0;">
+              <div class="hub-card-header">
+                <div>
+                  <h2 class="hub-card-title">🧪 Testar Antifraude</h2>
+                  <div class="hub-card-desc">Simular transação</div>
+                </div>
+              </div>
+
+              <form id="fraudTestForm">
+                <div class="form-group" style="margin-bottom: 0.75rem;">
+                  <label class="form-label">Valor da Transação (R$)</label>
+                  <input type="number" id="fraudTestAmount" class="form-control" value="65000" required>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 1rem;">
+                  <div class="form-group">
+                    <label class="form-label">Lat Origem</label>
+                    <input type="text" id="fraudTestLat" class="form-control" value="-15.7801" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Lng Origem</label>
+                    <input type="text" id="fraudTestLng" class="form-control" value="-47.9292" required>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Avaliar Risco</button>
+              </form>
+
+              <div id="fraudEvalResult" style="margin-top: 1rem; display: none;"></div>
+            </div>
+
+          </div>
+
+          <!-- Blocked Transactions Table -->
+          <div class="hub-card">
+            <div class="hub-card-header">
+              <div>
+                <h2 class="hub-card-title">🚨 Fila de Transações sob Suspeita de Fraude</h2>
+                <div class="hub-card-desc">Transações retidas com risco elevado aguardando moderação do Backoffice</div>
+              </div>
+            </div>
+
+            <div class="hub-table-wrapper">
+              <table class="hub-table">
+                <thead>
+                  <tr>
+                    <th>Identificador</th>
+                    <th>Valor</th>
+                    <th>Distância</th>
+                    <th>Score / Status</th>
+                    <th>Motivo da Retenção</th>
+                    <th>Data/Hora</th>
+                    <th>Moderação</th>
+                  </tr>
+                </thead>
+                <tbody id="fraudAlertsTableBody">
+                  <tr><td colspan="7" style="text-align: center; padding: 2rem;">Carregando alertas...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </section>
+
+
+        <!-- ==============================================================
+             TAB 3: SIMULADOR DE INVESTIMENTOS
+             ============================================================== -->
+        <section id="tab-investments" class="tab-pane">
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+            
+            <!-- Simulation Form -->
+            <div class="hub-card" style="margin-bottom: 0;">
+              <div class="hub-card-header">
+                <div>
+                  <h2 class="hub-card-title">💰 Simulador de Renda Fixa & CDI</h2>
+                  <div class="hub-card-desc">Cálculo de juros compostos com tabela regressiva de IR</div>
+                </div>
+              </div>
+
+              <form id="investSimulateForm">
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label class="form-label">Aporte Inicial (R$)</label>
+                    <input type="number" id="simInitialAmount" class="form-control" value="10000" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Aporte Mensal (R$)</label>
+                    <input type="number" id="simMonthlyAmount" class="form-control" value="1000">
+                  </div>
+                </div>
+
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label class="form-label">Prazo (Meses)</label>
+                    <input type="number" id="simMonths" class="form-control" value="12" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Taxa do Produto (% CDI)</label>
+                    <input type="number" id="simRatePercent" class="form-control" value="120" required>
+                  </div>
+                </div>
+
+                <div style="margin-bottom: 1.25rem;">
+                  <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; cursor: pointer;">
+                    <input type="checkbox" id="simIrExempt">
+                    <span>Produto Isento de IR (LCI / LCA)</span>
+                  </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Calcular Projeção</button>
+              </form>
+            </div>
+
+            <!-- Simulation Results Box -->
+            <div class="hub-card" style="margin-bottom: 0;" id="simResultsContainer">
+              <div class="hub-card-header">
+                <div>
+                  <h2 class="hub-card-title">📊 Resultado da Projeção</h2>
+                  <div class="hub-card-desc">Comparativo com poupança e líquido de IR</div>
+                </div>
+              </div>
+
+              <div style="text-align: center; padding: 1.25rem; background: rgba(255,255,255,0.02); border-radius: var(--radius-md); border: 1px solid var(--hub-border-subtle); margin-bottom: 1rem;">
+                <div style="font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase;">Valor Líquido a Resgatar</div>
+                <div style="font-size: 2.2rem; font-weight: 800; color: var(--status-success); margin: 0.25rem 0;" id="simResultNetTotal">R$ 23.820,40</div>
+                <div style="font-size: 0.8rem; color: var(--hub-gold-light);" id="simResultProfitOverPoupanca">+ R$ 1.150,00 a mais que a poupança</div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; font-size: 0.85rem;">
+                <div style="background: rgba(255,255,255,0.02); padding: 0.75rem; border-radius: var(--radius-sm);">
+                  <div style="color: var(--text-muted); font-size: 0.75rem;">Total Investido:</div>
+                  <strong id="simResultInvested">R$ 22.000,00</strong>
+                </div>
+                <div style="background: rgba(255,255,255,0.02); padding: 0.75rem; border-radius: var(--radius-sm);">
+                  <div style="color: var(--text-muted); font-size: 0.75rem;">Valor Bruto:</div>
+                  <strong id="simResultGross">R$ 24.220,00</strong>
+                </div>
+                <div style="background: rgba(255,255,255,0.02); padding: 0.75rem; border-radius: var(--radius-sm); grid-column: span 2;">
+                  <div style="color: var(--text-muted); font-size: 0.75rem;">Imposto de Renda Retido:</div>
+                  <strong style="color: #f87171;" id="simResultIr">R$ 399,60 (17.5%)</strong>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Product Catalog List -->
+          <div class="hub-card">
+            <div class="hub-card-header">
+              <div>
+                <h2 class="hub-card-title">📑 Catálogo de Produtos de Renda Fixa</h2>
+                <div class="hub-card-desc">Produtos ofertados aos clientes finais no ecossistema</div>
+              </div>
+            </div>
+
+            <div id="investProductsList" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
+          </div>
+
+          <!-- Active Positions Table -->
+          <div class="hub-card">
+            <div class="hub-card-header">
+              <div>
+                <h2 class="hub-card-title">💼 Carteira Consolidada de Investimentos</h2>
+                <div class="hub-card-desc">Posições ativas sob custódia</div>
+              </div>
+            </div>
+
+            <div class="hub-table-wrapper">
+              <table class="hub-table">
+                <thead>
+                  <tr>
+                    <th>Produto</th>
+                    <th>Tipo</th>
+                    <th>Valor Aplicado</th>
+                    <th>Saldo Atual</th>
+                    <th>Rentabilidade</th>
+                    <th>Data Aplicação</th>
+                  </tr>
+                </thead>
+                <tbody id="myPositionsTableBody">
+                  <tr><td colspan="6" style="text-align: center; padding: 1.5rem;">Carregando posições...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </section>
+
+
+        <!-- ==============================================================
+             TAB 4: GATEWAY DE WEBHOOKS
+             ============================================================== -->
+        <section id="tab-webhooks" class="tab-pane">
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+            
+            <!-- Register Webhook Form -->
+            <div class="hub-card" style="margin-bottom: 0;">
+              <div class="hub-card-header">
+                <div>
+                  <h2 class="hub-card-title">⚡ Cadastrar Endpoint Webhook</h2>
+                  <div class="hub-card-desc">Receba notificações HTTP POST assinadas com HMAC</div>
+                </div>
+              </div>
+
+              <form id="webhookSubscribeForm">
+                <div class="form-group" style="margin-bottom: 0.75rem;">
+                  <label class="form-label">URL de Callback (HTTPS)</label>
+                  <input type="url" id="whUrl" class="form-control" placeholder="https://api.parceiro.com/webhooks" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 0.75rem;">
+                  <label class="form-label">Eventos Desejados</label>
+                  <input type="text" id="whEvents" class="form-control" value="transaction.completed,loan.contracted" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 1rem;">
+                  <label class="form-label">Chave Secreta HMAC (Opcional)</label>
+                  <input type="text" id="whSecret" class="form-control" placeholder="Gerar chave aleatória automática">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Cadastrar Webhook</button>
+              </form>
+            </div>
+
+            <!-- Test Dispatcher -->
+            <div class="hub-card" style="margin-bottom: 0;">
+              <div class="hub-card-header">
+                <div>
+                  <h2 class="hub-card-title">🚀 Disparador de Teste HMAC</h2>
+                  <div class="hub-card-desc">Simular envio com cabeçalho X-Signature</div>
+                </div>
+              </div>
+
+              <form id="webhookTestDispatchForm">
+                <div class="form-group" style="margin-bottom: 0.75rem;">
+                  <label class="form-label">Selecionar Endpoint</label>
+                  <select id="dispatchWebhookSelect" class="form-control" required></select>
+                </div>
+                <div class="form-group" style="margin-bottom: 1rem;">
+                  <label class="form-label">Tipo de Evento</label>
+                  <select id="dispatchEventType" class="form-control">
+                    <option value="transaction.completed">transaction.completed</option>
+                    <option value="loan.contracted">loan.contracted</option>
+                    <option value="url.milestone_reached">url.milestone_reached</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-secondary" style="width: 100%;">Disparar Evento de Teste</button>
+              </form>
+            </div>
+
+          </div>
+
+          <!-- Webhooks Subscriptions List -->
+          <div class="hub-card">
+            <div class="hub-card-header">
+              <h2 class="hub-card-title">📋 Endpoints Registrados</h2>
+            </div>
+            <div id="webhookSubsList"></div>
+          </div>
+
+          <!-- Delivery Log Table -->
+          <div class="hub-card">
+            <div class="hub-card-header">
+              <h2 class="hub-card-title">📜 Histórico de Entregas de Webhook</h2>
+            </div>
+            <div class="hub-table-wrapper">
+              <table class="hub-table">
+                <thead>
+                  <tr>
+                    <th>Evento</th>
+                    <th>Status</th>
+                    <th>Assinatura HMAC</th>
+                    <th>Payload Enviado</th>
+                    <th>Data/Hora</th>
+                  </tr>
+                </thead>
+                <tbody id="webhookDeliveriesTableBody">
+                  <tr><td colspan="5" style="text-align: center; padding: 1.5rem;">Nenhuma notificação registrada.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </section>
+
+
+        <!-- ==============================================================
+             TAB 5: TRANSFERÊNCIAS AGENDADAS (@Scheduled)
+             ============================================================== -->
+        <section id="tab-scheduler" class="tab-pane">
+          
+          <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+            
+            <!-- Schedule Form -->
+            <div class="hub-card" style="margin-bottom: 0;">
+              <div class="hub-card-header">
+                <div>
+                  <h2 class="hub-card-title">⏱️ Novo Agendamento</h2>
+                  <div class="hub-card-desc">Processamento automático em background</div>
+                </div>
+              </div>
+
+              <form id="scheduleTransferForm">
+                <div class="form-group" style="margin-bottom: 0.75rem;">
+                  <label class="form-label">Favorecido</label>
+                  <input type="text" id="schedName" class="form-control" placeholder="Carlos Silva" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 0.75rem;">
+                  <label class="form-label">Chave Pix / Documento</label>
+                  <input type="text" id="schedDoc" class="form-control" placeholder="carlos@exemplo.com" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 0.75rem;">
+                  <label class="form-label">Valor (R$)</label>
+                  <input type="number" id="schedAmount" class="form-control" placeholder="1500.00" required>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 1rem;">
+                  <div class="form-group">
+                    <label class="form-label">Tipo</label>
+                    <select id="schedType" class="form-control">
+                      <option value="PIX">Pix</option>
+                      <option value="TED">TED</option>
+                      <option value="BOLETO">Boleto</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Data Execução</label>
+                    <input type="date" id="schedDate" class="form-control" required>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Agendar Pagamento</button>
+              </form>
+            </div>
+
+            <!-- Scheduled Transfers Table -->
+            <div class="hub-card" style="margin-bottom: 0;">
+              <div class="hub-card-header">
+                <div>
+                  <h2 class="hub-card-title">📅 Fila de Pagamentos Programados</h2>
+                  <div class="hub-card-desc">Executados periodicamente pelo motor cron @Scheduled</div>
+                </div>
+              </div>
+
+              <div class="hub-table-wrapper">
+                <table class="hub-table">
+                  <thead>
+                    <tr>
+                      <th>Favorecido</th>
+                      <th>Documento</th>
+                      <th>Valor</th>
+                      <th>Tipo</th>
+                      <th>Data Programada</th>
+                      <th>Status</th>
+                      <th>Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody id="scheduledTransfersTableBody">
+                    <tr><td colspan="7" style="text-align: center; padding: 1.5rem;">Carregando agendamentos...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==============================================================
+             TAB 6: COMPLIANCE & PRIVACIDADE LGPD
+             ============================================================== -->
+        <section id="tab-compliance" class="tab-pane">
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+            
+            <!-- Data Export Box -->
+            <div class="hub-card" style="margin-bottom: 0;">
+              <div class="hub-card-header">
+                <div>
+                  <h2 class="hub-card-title">📦 Portabilidade & Exportação LGPD</h2>
+                  <div class="hub-card-desc">Art. 18, II e V da Lei Geral de Proteção de Dados</div>
+                </div>
+              </div>
+              <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                Gera um pacote assinado contendo dados cadastrais, posições financeiras e trilha de auditoria completa do titular.
+              </p>
+              <button id="lgpdExportBtn" class="btn btn-primary" style="width: 100%;">Gerar Dossiê Completo do Usuário #1</button>
+              
+              <pre id="lgpdExportResult" class="code-box" style="margin-top: 1rem; max-height: 200px; display: none;"></pre>
+            </div>
+
+            <!-- Right to be Forgotten Box -->
+            <div class="hub-card" style="margin-bottom: 0;">
+              <div class="hub-card-header">
+                <div>
+                  <h2 class="hub-card-title">🛡️ Direito ao Esquecimento (Anonimização)</h2>
+                  <div class="hub-card-desc">Art. 18, VI da Lei 13.709/2018</div>
+                </div>
+              </div>
+              <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                Ofusca dados pessoais (CPF, e-mail, coordenadas) mantendo integridade referencial nas transações e registrando log imutável de auditoria.
+              </p>
+              <button id="lgpdAnonymizeBtn" class="btn btn-danger" style="width: 100%;">Executar Anonimização do Usuário #1</button>
+            </div>
+
+          </div>
+
+          <!-- Audit Logs Table -->
+          <div class="hub-card">
+            <div class="hub-card-header">
+              <div>
+                <h2 class="hub-card-title">📜 Trilha Imutável de Auditoria (Audit Logs)</h2>
+                <div class="hub-card-desc">Registro cronológico de acessos, alterações e eventos de compliance</div>
+              </div>
+            </div>
+
+            <div class="hub-table-wrapper">
+              <table class="hub-table">
+                <thead>
+                  <tr>
+                    <th>Ação</th>
+                    <th>Entidade / ID</th>
+                    <th>Detalhes da Operação</th>
+                    <th>Data/Hora</th>
+                  </tr>
+                </thead>
+                <tbody id="auditLogsTableBody">
+                  <tr><td colspan="4" style="text-align: center; padding: 1.5rem;">Carregando logs de auditoria...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </section>
+
+
+        <!-- ==============================================================
+             TAB 7: LIVE API TRAFFIC INSPECTOR
+             ============================================================== -->
+        <section id="tab-inspector" class="tab-pane">
+          <div class="hub-card">
+            <div class="hub-card-header">
+              <div>
+                <h2 class="hub-card-title">📡 Monitor de Tráfego HTTP em Tempo Real</h2>
+                <div class="hub-card-desc">Interceptação de chamadas REST com injeção de cabeçalhos multi-tenant</div>
+              </div>
+            </div>
+
+            <div id="inspectorLiveLogs" style="display: flex; flex-direction: column; gap: 0.5rem;"></div>
+          </div>
+        </section>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- Toast Notifications -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
