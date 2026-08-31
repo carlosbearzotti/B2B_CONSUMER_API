@@ -6,20 +6,20 @@ export const config = {
 
   DEFAULT_TENANTS: [
     {
-      id: 'tenant_fintech',
-      name: 'Fintech Startup S.A.',
-      apiKey: 'fintech-startup-key-12345',
-      plan: 'Enterprise Platinum',
-      color: '#d4af37',
-      badge: 'PROD'
-    },
-    {
       id: 'tenant_laobank',
       name: 'LãoBank Digital Banking',
       apiKey: 'laobank-digital-key-99999',
       plan: 'Bank Core Multi-Cofre',
-      color: '#38bdf8',
+      color: '#d4af37',
       badge: 'CORE'
+    },
+    {
+      id: 'tenant_fintech',
+      name: 'Fintech Startup S.A.',
+      apiKey: 'fintech-startup-key-12345',
+      plan: 'Enterprise Platinum',
+      color: '#38bdf8',
+      badge: 'PROD'
     },
     {
       id: 'tenant_corporativo',
