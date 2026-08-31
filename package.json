@@ -1,0 +1,13 @@
+{
+  "name": "consumer-backoffice",
+  "version": "1.0.0",
+  "description": "B2B Partner Hub & BackOffice Console for LãoBank",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve . -l 3001",
+    "start": "npx serve . -l 3001"
+  },
+  "keywords": ["b2b", "backoffice", "fintech", "partner-hub"],
+  "author": "Carlos",
+  "license": "MIT"
+}
