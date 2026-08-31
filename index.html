@@ -47,15 +47,30 @@
           <span>🏛️ Compliance & LGPD</span>
         </button>
 
-        <div class="nav-section-title">Produtos & Automação</div>
-        <button class="nav-item" data-tab="investments">
-          <span>📈 Renda Fixa & Investimentos</span>
+        <div class="nav-section-title">Integração & Ecossistema</div>
+        <button class="nav-item" data-tab="integrations">
+          <span>🏢 Conectores ERP / CRM</span>
+        </button>
+        <button class="nav-item" data-tab="messaging">
+          <span>📬 Broker de Eventos & DLQ</span>
+          <span class="nav-badge" id="sidebarDlqBadge" style="background: var(--status-danger);">3</span>
         </button>
         <button class="nav-item" data-tab="webhooks">
           <span>⚡ Gateway de Webhooks</span>
         </button>
+
+        <div class="nav-section-title">Gestão B2B & Governança</div>
+        <button class="nav-item" data-tab="billing">
+          <span>💳 Faturamento & Billing</span>
+        </button>
+        <button class="nav-item" data-tab="mdm">
+          <span>👥 Governança & MDM</span>
+        </button>
         <button class="nav-item" data-tab="scheduler">
           <span>⏱️ Transferências Agendadas</span>
+        </button>
+        <button class="nav-item" data-tab="investments">
+          <span>📈 Renda Fixa & Investimentos</span>
         </button>
 
         <div class="nav-section-title">Desenvolvedor & API</div>
@@ -634,6 +649,511 @@
                 </tbody>
               </table>
             </div>
+          </div>
+
+        </section>
+
+
+        <!-- ==============================================================
+             TAB: MENSAGERIA & OBSERVABILIDADE (BROKER B2B)
+             ============================================================== -->
+        <section id="tab-messaging" class="tab-pane">
+          
+          <!-- Messaging KPI Grid -->
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Eventos Processados (24h)</span>
+                <span class="kpi-icon">📈</span>
+              </div>
+              <div class="kpi-value" id="kpiEventsProcessed">142.500</div>
+              <div class="kpi-sub">
+                <span class="kpi-badge-positive">↑ 12%</span> vs. ontem
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Tempo Médio (Latency)</span>
+                <span class="kpi-icon">⏱️</span>
+              </div>
+              <div class="kpi-value" id="kpiMsgLatency">45 ms</div>
+              <div class="kpi-sub">P99 < 120ms</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Workers Ativos</span>
+                <span class="kpi-icon">🤖</span>
+              </div>
+              <div class="kpi-value" id="kpiActiveWorkers">8 / 10</div>
+              <div class="kpi-sub">Auto-scaling ativado</div>
+            </div>
+
+            <div class="kpi-card" style="border: 1px solid rgba(248, 113, 113, 0.3); background: rgba(248, 113, 113, 0.02);">
+              <div class="kpi-header">
+                <span class="kpi-title">Fila de Mortos (DLQ)</span>
+                <span class="kpi-icon">🚨</span>
+              </div>
+              <div class="kpi-value" style="color: var(--status-danger);" id="kpiDlqCount">3 itens</div>
+              <div class="kpi-sub" style="color: var(--status-danger);">Requer atenção imediata</div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+            
+            <!-- Event Bus Architecture View -->
+            <div class="hub-card" style="margin-bottom: 0;">
+              <div class="hub-card-header">
+                <div>
+                  <h2 class="hub-card-title">🌐 Message Broker & Tópicos</h2>
+                  <div class="hub-card-desc">Visão estrutural dos barramentos B2B</div>
+                </div>
+                <span class="badge badge-emerald">Broker Online</span>
+              </div>
+              
+              <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--hub-border-card); border-radius: var(--radius-md); padding: 1rem;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <div style="font-weight: 600; color: var(--hub-gold-light);">Tópico: integrados.transacoes.v1</div>
+                    <span class="badge badge-cyan" style="font-size: 0.7rem;">50 msg/s</span>
+                  </div>
+                  <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Eventos de pagamentos e transferências para processamento assíncrono e antifraude.</div>
+                  <div class="progress-bar-bg" style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
+                    <div class="progress-bar-fill" style="width: 65%; height: 100%; background: var(--status-info);"></div>
+                  </div>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--hub-border-card); border-radius: var(--radius-md); padding: 1rem;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <div style="font-weight: 600; color: var(--hub-gold-light);">Tópico: erp.sync.events</div>
+                    <span class="badge badge-cyan" style="font-size: 0.7rem;">12 msg/s</span>
+                  </div>
+                  <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Sincronização de faturamento e notas fiscais com ERP externo.</div>
+                  <div class="progress-bar-bg" style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
+                    <div class="progress-bar-fill" style="width: 30%; height: 100%; background: var(--status-success);"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Inject Event Form -->
+            <div class="hub-card" style="margin-bottom: 0;">
+              <div class="hub-card-header">
+                <div>
+                  <h2 class="hub-card-title">💉 Injetar Evento (Simulador)</h2>
+                  <div class="hub-card-desc">Publicar mensagem manualmente no broker</div>
+                </div>
+              </div>
+
+              <form id="injectEventForm">
+                <div class="form-group" style="margin-bottom: 0.75rem;">
+                  <label class="form-label">Tópico de Destino</label>
+                  <select id="simTopic" class="form-control">
+                    <option value="integrados.transacoes.v1">integrados.transacoes.v1</option>
+                    <option value="erp.sync.events">erp.sync.events</option>
+                  </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 1rem;">
+                  <label class="form-label">Payload JSON</label>
+                  <textarea id="simPayload" class="form-control code-box" rows="5" style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;">{
+  "eventId": "evt_9001",
+  "type": "PAYMENT_REQUESTED",
+  "amount": 1500.00
+}</textarea>
+                </div>
+                <button type="submit" class="btn btn-secondary" style="width: 100%;">Publicar Mensagem</button>
+              </form>
+            </div>
+            
+          </div>
+
+          <!-- Dead Letter Queue Table -->
+          <div class="hub-card">
+            <div class="hub-card-header">
+              <div>
+                <h2 class="hub-card-title">🚨 Dead Letter Queue (DLQ)</h2>
+                <div class="hub-card-desc">Eventos que falharam no processamento e aguardam intervenção manual (ex: ERP Indisponível)</div>
+              </div>
+              <button id="reprocessAllDlqBtn" class="btn btn-primary btn-sm">Reprocessar Todos</button>
+            </div>
+
+            <div class="hub-table-wrapper">
+              <table class="hub-table">
+                <thead>
+                  <tr>
+                    <th>ID Mensagem</th>
+                    <th>Tópico Original</th>
+                    <th>Motivo da Falha</th>
+                    <th>Tentativas</th>
+                    <th>Data/Hora Falha</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="dlqTableBody">
+                  <tr><td colspan="6" style="text-align: center; padding: 1.5rem;">Carregando mensagens da DLQ...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </section>
+
+
+        <!-- ==============================================================
+             TAB: CONECTORES ERP / CRM & INTEGRAÇÕES B2B
+             ============================================================== -->
+        <section id="tab-integrations" class="tab-pane">
+          
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Conectores Ativos</span>
+                <span class="kpi-icon">🏢</span>
+              </div>
+              <div class="kpi-value" id="kpiActiveConnectors">3 / 4</div>
+              <div class="kpi-sub">SAP, TOTVS, Salesforce</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Registros Sincronizados (24h)</span>
+                <span class="kpi-icon">🔄</span>
+              </div>
+              <div class="kpi-value">48.920</div>
+              <div class="kpi-sub"><span class="kpi-badge-positive">↑ 100%</span> sucesso no Bulk API</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Chaves B2B Emitidas</span>
+                <span class="kpi-icon">🔑</span>
+              </div>
+              <div class="kpi-value">3 ativas</div>
+              <div class="kpi-sub">mTLS & Escopos Granulares</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Saúde das Integrações</span>
+                <span class="kpi-icon">⚡</span>
+              </div>
+              <div class="kpi-value" style="color: var(--status-success);">99.98%</div>
+              <div class="kpi-sub">SLA Operacional B2B</div>
+            </div>
+          </div>
+
+          <!-- Conectores Corporativos -->
+          <div class="hub-card">
+            <div class="hub-card-header">
+              <div>
+                <h2 class="hub-card-title">🔌 Conectores Pré-Integrados (Enterprise ERP & CRM)</h2>
+                <div class="hub-card-desc">Sincronização bidirecional em lote e tempo real com sistemas legados e cloud</div>
+              </div>
+            </div>
+            <div id="connectorsList"></div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+            
+            <!-- Mapeador Canônico EDI / JSON -->
+            <div class="hub-card" style="margin-bottom: 0;">
+              <div class="hub-card-header">
+                <div>
+                  <h2 class="hub-card-title">🗺️ Mapeador & Conversor Canônico B2B</h2>
+                  <div class="hub-card-desc">Transformação de layouts heterogêneos de ERP para o Core Bancário</div>
+                </div>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0.75rem;">
+                <label class="form-label">Payload de Entrada (ERP Parceiro / SAP / TOTVS)</label>
+                <textarea id="mappingInputJson" class="form-control code-box" rows="5" style="font-family: var(--font-mono); font-size: 0.75rem;">{
+  "nfe_numero": "NFE-998124",
+  "cnpj_emitente": "12.345.678/0001-90",
+  "razao_social_emit": "Distribuidora Master S.A.",
+  "chave_pix_favorecido": "financeiro@distribuidoramaster.com.br",
+  "valor_total_nota": "24500.80",
+  "data_vencimento": "2026-09-15"
+}</textarea>
+              </div>
+
+              <button id="btnTestFieldMapping" class="btn btn-primary" style="width: 100%; margin-bottom: 0.75rem;">
+                ⚡ Executar Mapeamento Canônico
+              </button>
+
+              <div class="form-group">
+                <label class="form-label">Payload Normalizado (Integrados Core REST API)</label>
+                <textarea id="mappingOutputJson" class="form-control code-box" rows="6" readonly style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--hub-gold-light);"></textarea>
+              </div>
+            </div>
+
+            <!-- Chaves de API e Acesso B2B -->
+            <div class="hub-card" style="margin-bottom: 0;">
+              <div class="hub-card-header">
+                <div>
+                  <h2 class="hub-card-title">🔑 Chaves de Acesso B2B (API Keys)</h2>
+                  <div class="hub-card-desc">Credenciais com escopos de permissão limitados</div>
+                </div>
+                <button id="btnGenerateApiKey" class="btn btn-secondary btn-sm">+ Nova Chave</button>
+              </div>
+
+              <div class="hub-table-wrapper">
+                <table class="hub-table">
+                  <thead>
+                    <tr>
+                      <th>Identificador</th>
+                      <th>Prefixo</th>
+                      <th>Escopos</th>
+                      <th>Criação</th>
+                      <th>Status</th>
+                      <th>Ação</th>
+                    </tr>
+                  </thead>
+                  <tbody id="apiKeysTableBody">
+                    <tr><td colspan="6" style="text-align: center; padding: 1.5rem;">Carregando credenciais...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==============================================================
+             TAB: FATURAMENTO & BILLING B2B
+             ============================================================== -->
+        <section id="tab-billing" class="tab-pane">
+          
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Fatura Vigente (Agosto/2026)</span>
+                <span class="kpi-icon">💰</span>
+              </div>
+              <div class="kpi-value" style="color: var(--hub-gold-light);">R$ 14.850,00</div>
+              <div class="kpi-sub">Vencimento: <strong>10/09/2026</strong></div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Consumo de Requisições</span>
+                <span class="kpi-icon">📊</span>
+              </div>
+              <div class="kpi-value">1.420.000</div>
+              <div class="kpi-sub">71% da cota mensal (2M reqs)</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Plano / Tier Contratado</span>
+                <span class="kpi-icon">🏆</span>
+              </div>
+              <div class="kpi-value" style="font-size: 1.4rem;">Enterprise Platinum</div>
+              <div class="kpi-sub">SLA 99.9% + Suporte Dedicado 24/7</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Ações Financeiras</span>
+                <span class="kpi-icon">📑</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 0.4rem; margin-top: 0.5rem;">
+                <button id="btnExportConsolidatedBilling" class="btn btn-primary btn-sm" style="width: 100%;">
+                  Exportar Dossiê CNAB 240
+                </button>
+                <button id="btnUpgradePlan" class="btn btn-secondary btn-sm" style="width: 100%;">
+                  Customizar Quota
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tabela de Tarifas por Microserviço Consumido -->
+          <div class="hub-card">
+            <div class="hub-card-header">
+              <div>
+                <h2 class="hub-card-title">🧾 Detalhamento de Consumo por Módulo do Core API</h2>
+                <div class="hub-card-desc">Transparência tarifária calculada por chamada e volume transacionado</div>
+              </div>
+            </div>
+
+            <div class="hub-table-wrapper">
+              <table class="hub-table">
+                <thead>
+                  <tr>
+                    <th>Módulo do Hub</th>
+                    <th>Preço Unitário</th>
+                    <th>Volume no Mês</th>
+                    <th>Subtotal Faturado</th>
+                    <th>SLA Médio</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>🛡️ Radar Antifraude & Geofencing</strong></td>
+                    <td>R$ 0,05 / consulta</td>
+                    <td>142.500 consultas</td>
+                    <td style="color: var(--hub-gold-light); font-weight: 700;">R$ 7.125,00</td>
+                    <td><span class="badge badge-emerald">99.99%</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>🔐 Cofre Criptográfico AES-256 / RSA</strong></td>
+                    <td>R$ 0,02 / encriptação</td>
+                    <td>185.000 operações</td>
+                    <td style="color: var(--hub-gold-light); font-weight: 700;">R$ 3.700,00</td>
+                    <td><span class="badge badge-emerald">100.0%</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>⚡ Webhooks & Broker com Assinatura HMAC</strong></td>
+                    <td>R$ 0,01 / disparo</td>
+                    <td>242.500 disparos</td>
+                    <td style="color: var(--hub-gold-light); font-weight: 700;">R$ 2.425,00</td>
+                    <td><span class="badge badge-emerald">99.98%</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>🏛️ Custódia & Motor de Renda Fixa</strong></td>
+                    <td>R$ 0,10 / aplicação</td>
+                    <td>16.000 operações</td>
+                    <td style="color: var(--hub-gold-light); font-weight: 700;">R$ 1.600,00</td>
+                    <td><span class="badge badge-emerald">100.0%</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Histórico de Faturas B2B -->
+          <div class="hub-card">
+            <div class="hub-card-header">
+              <div>
+                <h2 class="hub-card-title">📜 Histórico de Faturas & Quitações</h2>
+                <div class="hub-card-desc">Extrato formal para contabilidade e auditoria corporativa</div>
+              </div>
+            </div>
+
+            <div class="hub-table-wrapper">
+              <table class="hub-table">
+                <thead>
+                  <tr>
+                    <th>Fatura / Período</th>
+                    <th>Volume de Chamadas</th>
+                    <th>Valor Total</th>
+                    <th>Vencimento</th>
+                    <th>Status</th>
+                    <th>Download</th>
+                  </tr>
+                </thead>
+                <tbody id="invoicesTableBody">
+                  <tr><td colspan="6" style="text-align: center; padding: 1.5rem;">Carregando histórico...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </section>
+
+
+        <!-- ==============================================================
+             TAB: GOVERNANÇA, MDM & REGRAS DO TENANT
+             ============================================================== -->
+        <section id="tab-mdm" class="tab-pane">
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+            
+            <!-- Dados Cadastrais & Schema Isolado -->
+            <div class="hub-card" style="margin-bottom: 0;">
+              <div class="hub-card-header">
+                <div>
+                  <h2 class="hub-card-title">🏢 Master Data Management (MDM)</h2>
+                  <div class="hub-card-desc">Dados mestres da organização e isolamento de esquema</div>
+                </div>
+                <span class="badge badge-emerald">Schema Ativo</span>
+              </div>
+
+              <form id="tenantGovernanceForm">
+                <div class="form-group" style="margin-bottom: 0.75rem;">
+                  <label class="form-label">Razão Social da Empresa</label>
+                  <input type="text" class="form-control" value="Fintech Startup Soluções Financeiras S.A." required>
+                </div>
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label class="form-label">CNPJ Corporativo</label>
+                    <input type="text" class="form-control" value="38.912.450/0001-14" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Schema PostgreSQL</label>
+                    <input type="text" class="form-control" value="tenant_fintech" readonly style="background: rgba(255,255,255,0.02); font-family: var(--font-mono); color: var(--hub-gold-light);">
+                  </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 0.75rem;">
+                  <label class="form-label">Webhook URL Padrão de Notificação de Falhas</label>
+                  <input type="url" class="form-control" value="https://api.fintech.com.br/alerts/governance">
+                </div>
+
+                <div class="hub-card-header" style="margin-top: 1.5rem; margin-bottom: 0.75rem; padding-bottom: 0.5rem;">
+                  <div>
+                    <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin: 0;">⚙️ Parâmetros do Motor Antifraude</h3>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">Políticas de corte sob medida para este Tenant</div>
+                  </div>
+                </div>
+
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label class="form-label">Raio Geofencing Máx. (KM)</label>
+                    <input type="number" class="form-control" value="50">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Limite Auto-Aprovação (R$)</label>
+                    <input type="number" class="form-control" value="25000">
+                  </div>
+                </div>
+
+                <div style="margin-bottom: 1.25rem;">
+                  <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; cursor: pointer;">
+                    <input type="checkbox" checked>
+                    <span>Exigir aprovação manual para transações de madrugada (00h - 06h)</span>
+                  </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                  Salvar Políticas de Governança
+                </button>
+              </form>
+            </div>
+
+            <!-- Whitelist de Segurança & IP Restriction -->
+            <div class="hub-card" style="margin-bottom: 0;">
+              <div class="hub-card-header">
+                <div>
+                  <h2 class="hub-card-title">🔒 Whitelist de IPs Corporativos</h2>
+                  <div class="hub-card-desc">Apenas requisições originadas destes blocos de IP são aceitas com a API Key</div>
+                </div>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 1rem;">
+                <label class="form-label">Adicionar Novo IP ou Bloco CIDR</label>
+                <div style="display: flex; gap: 0.5rem;">
+                  <input type="text" id="ipWhitelistInput" class="form-control" placeholder="ex: 189.40.22.0/24 ou 201.88.12.5">
+                  <button type="button" id="btnAddIpWhitelist" class="btn btn-secondary">Adicionar</button>
+                </div>
+              </div>
+
+              <div style="margin-bottom: 1.25rem;">
+                <label class="form-label">IPs e Datacenters Autorizados:</label>
+                <div id="ipWhitelistBadges" style="display: flex; flex-wrap: wrap; gap: 0.5rem;"></div>
+              </div>
+
+              <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--hub-border-card); border-radius: var(--radius-md); padding: 1rem;">
+                <div style="font-weight: 700; color: var(--hub-gold-light); font-size: 0.85rem; margin-bottom: 0.35rem;">🛡️ Política Zero Trust Ativa</div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4;">
+                  Qualquer chamada à API fora dessa lista é rejeitada com código <code>403 Forbidden (IP_NOT_WHITELISTED)</code> antes mesmo de atingir os bancos de dados tenant-isolados.
+                </div>
+              </div>
+            </div>
+
           </div>
 
         </section>

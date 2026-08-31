@@ -6,6 +6,10 @@ import { investmentsFeature } from './features/investments.js';
 import { webhooksFeature } from './features/webhooks.js';
 import { schedulerFeature } from './features/scheduler.js';
 import { complianceFeature } from './features/compliance.js';
+import { messagingFeature } from './features/messaging.js';
+import { integrationsFeature } from './features/integrations.js';
+import { billingFeature } from './features/billing.js';
+import { mdmFeature } from './features/mdm.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   modal.init();
@@ -17,6 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
   webhooksFeature.init();
   schedulerFeature.init();
   complianceFeature.init();
+  messagingFeature.init();
+  integrationsFeature.init();
+  billingFeature.init();
+  mdmFeature.init();
 
-  console.log('🚀 Integrados Partner Hub (B2B Admin Console) inicializado!');
+  console.log('🚀 Integrados Partner Hub (B2B Admin Console) inicializado com todos os módulos B2B!');
 });
