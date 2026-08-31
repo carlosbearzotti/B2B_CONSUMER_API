@@ -18,17 +18,62 @@
 </head>
 <body>
 
-  <div class="app-wrapper">
+  <!-- ================================================================
+       EMPLOYEE AUTHENTICATION SCREEN (LÃOBANK INTERNAL ONLY)
+       ================================================================ -->
+  <div id="employeeLoginScreen" class="employee-auth-screen" style="display: flex;">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-logo-box">🏛️</div>
+        <h1 class="auth-title">LÃOBANK ADMIN</h1>
+        <p class="auth-subtitle">Portal de Retaguarda & Governança &bull; Acesso Restrito</p>
+      </div>
+
+      <div id="empLoginError" class="auth-error-alert" style="display: none;"></div>
+
+      <form id="employeeLoginForm">
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">E-mail Corporativo (@laobank.com.br)</label>
+          <input type="email" id="empLoginEmail" class="form-control" placeholder="colaborador@laobank.com.br" value="admin@laobank.com.br" required>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+          <label class="form-label">Senha de Acesso</label>
+          <input type="password" id="empLoginPassword" class="form-control" placeholder="••••••••••••" value="Admin@LaoBank2026!" required>
+        </div>
+
+        <button type="submit" id="btnSubmitEmployeeLogin" class="btn btn-primary" style="width: 100%; padding: 0.85rem; font-weight: 700;">
+          Acessar Console LãoBank
+        </button>
+      </form>
+
+      <div class="quick-access-box" style="margin-top: 1.5rem; border-top: 1px solid var(--hub-border-card); padding-top: 1rem;">
+        <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem; text-align: center;">
+          Acesso Rápido (Ambiente de Homologação / DBeaver)
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+          <button type="button" id="btnQuickFillAdmin" class="btn btn-secondary btn-sm" style="font-size: 0.72rem;">
+            👑 Admin
+          </button>
+          <button type="button" id="btnQuickFillManager" class="btn btn-secondary btn-sm" style="font-size: 0.72rem;">
+            👔 Gerente
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-wrapper" style="display: none;">
 
     <!-- ================================================================
          1. SIDEBAR NAVIGATION
          ================================================================ -->
     <aside class="hub-sidebar">
       <div class="sidebar-header">
-        <div class="brand-icon-box">IN</div>
+        <div class="brand-icon-box">🏛️</div>
         <div class="brand-titles">
-          <span class="brand-name">PARTNER HUB</span>
-          <span class="brand-sub">B2B Admin Console</span>
+          <span class="brand-name">LÃOBANK</span>
+          <span class="brand-sub">BackOffice Corporativo</span>
         </div>
       </div>
 
@@ -81,8 +126,8 @@
 
       <div class="sidebar-footer">
         <div style="font-size: 0.75rem; color: var(--text-muted);">
-          Integrados Suite v2.0<br>
-          <span style="color: var(--hub-gold-light);">Multi-Tenant Active</span>
+          LãoBank Core v2.0<br>
+          <span style="color: var(--hub-gold-light);">PostgreSQL Ativo</span>
         </div>
         <div class="status-dot" title="API Online"></div>
       </div>
@@ -96,26 +141,24 @@
       <!-- Header Topbar -->
       <header class="hub-topbar">
         <div class="topbar-left">
-          <div class="tenant-picker-box">
-            <span class="tenant-picker-label">Tenant Ativo:</span>
-            <select id="topbarTenantSelect" class="tenant-select">
-              <option value="tenant_fintech">Fintech Startup S.A.</option>
-              <option value="tenant_laobank">LãoBank Digital Banking</option>
-              <option value="tenant_corporativo">Corporativo Global S.A.</option>
-            </select>
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <span style="font-family: 'Cinzel', serif; font-size: 1.15rem; font-weight: 800; color: var(--hub-gold-light); letter-spacing: 1px;">
+              🏛️ LÃOBANK ADMIN
+            </span>
+            <span class="badge badge-gold">Portal de Retaguarda</span>
+            <span class="badge badge-emerald">PostgreSQL Real</span>
           </div>
-          <span id="currentTenantPlanBadge" class="badge badge-gold">Enterprise Platinum</span>
         </div>
 
         <div class="topbar-right">
-          <div class="api-key-badge" title="Chave X-API-Key injetada nas requisições deste tenant">
-            <span>🔑</span>
-            <span id="activeApiKeyDisplay">fintech-startup-key-12345</span>
+          <div class="api-key-badge" style="background: rgba(255,255,255,0.03); border: 1px solid var(--hub-border-card);">
+            <span style="font-size: 1rem;">👤</span>
+            <span id="employeeNameDisplay" style="font-weight: 600; color: var(--text-main);">Administrador Geral</span>
+            <span id="employeeRoleBadge" class="badge badge-gold" style="font-size: 0.7rem;">Administrador</span>
           </div>
-          <div class="api-key-badge">
-            <span class="status-dot"></span>
-            <span>API Spring Boot: 8080</span>
-          </div>
+          <button id="btnEmployeeLogout" class="btn btn-secondary btn-sm" title="Encerrar Sessão">
+            🚪 Sair
+          </button>
         </div>
       </header>
 

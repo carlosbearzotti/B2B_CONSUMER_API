@@ -375,3 +375,65 @@
   from { transform: translateX(100%); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
 }
+
+/* =============================================================================
+   EMPLOYEE AUTH SCREEN STYLES
+   ============================================================================= */
+.employee-auth-screen {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, #101935 0%, #060913 100%);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.auth-card {
+  background: rgba(14, 22, 40, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(197, 160, 89, 0.3);
+  border-radius: var(--radius-xl);
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), var(--hub-glow-gold);
+  animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-logo-box {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.auth-title {
+  font-family: 'Cinzel', serif, Georgia;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--hub-gold-light);
+  letter-spacing: 2px;
+  margin: 0 0 0.25rem 0;
+}
+
+.auth-subtitle {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.auth-error-alert {
+  background: rgba(248, 113, 113, 0.1);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  color: #f87171;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  margin-bottom: 1.25rem;
+  line-height: 1.4;
+}

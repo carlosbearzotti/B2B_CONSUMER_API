@@ -11,9 +11,12 @@ import { integrationsFeature } from './features/integrations.js';
 import { billingFeature } from './features/billing.js';
 import { mdmFeature } from './features/mdm.js';
 
+import { employeeAuth } from './features/employeeAuth.js';
+
 document.addEventListener('DOMContentLoaded', () => {
   modal.init();
   appShell.init();
+  employeeAuth.init();
 
   dashboardFeature.init();
   fraudShieldFeature.init();
@@ -26,5 +29,5 @@ document.addEventListener('DOMContentLoaded', () => {
   billingFeature.init();
   mdmFeature.init();
 
-  console.log('🚀 Integrados Partner Hub (B2B Admin Console) inicializado com todos os módulos B2B!');
+  console.log('🏛️ LãoBank Admin Console inicializado com sucesso!');
 });
